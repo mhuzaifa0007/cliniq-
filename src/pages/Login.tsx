@@ -61,7 +61,7 @@ export default function Login() {
           <div className="mx-auto mb-8 flex h-20 w-20 items-center justify-center rounded-2xl bg-primary-foreground/10 backdrop-blur-sm border border-primary-foreground/20">
             <Activity className="h-10 w-10 text-primary-foreground" />
           </div>
-          <h1 className="text-4xl font-extrabold text-primary-foreground mb-4">Hamza Clinic Hackathon</h1>
+          <h1 className="text-4xl font-extrabold text-primary-foreground mb-4">CliniQ+</h1>
           <p className="text-lg text-primary-foreground/80 leading-relaxed">
             Pakistan's smart clinic management platform. AI-powered diagnosis, digital prescriptions, and complete patient care — built for Pakistani healthcare.
           </p>
@@ -83,7 +83,7 @@ export default function Login() {
             <div className="flex h-10 w-10 items-center justify-center rounded-xl gradient-primary">
               <Activity className="h-5 w-5 text-primary-foreground" />
             </div>
-            <span className="text-xl font-bold text-foreground">Hamza Clinic Hackathon</span>
+            <span className="text-xl font-bold text-foreground">CliniQ+</span>
           </div>
 
           <h2 className="text-2xl font-bold text-foreground">{isSignup ? "Create Account" : "Welcome back"}</h2>
