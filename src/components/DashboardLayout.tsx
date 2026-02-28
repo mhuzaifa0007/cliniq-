@@ -3,7 +3,7 @@ import { useAuth, UserRole } from "@/lib/auth-context";
 import { useNavigate, useLocation } from "react-router-dom";
 import {
   LayoutDashboard, Users, Calendar, FileText, LogOut,
-  Menu, X, Activity, UserCog, ClipboardList, ChevronRight, CreditCard
+  Menu, X, Activity, UserCog, CreditCard, Heart
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 
@@ -56,104 +56,150 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
   if (!user) return null;
 
   const navItems = NAV_BY_ROLE[user.role];
+  const currentPage = navItems.find(n => n.path === location.pathname)?.label || "Dashboard";
 
   return (
-    <div className="flex h-screen overflow-hidden bg-background">
+    <div className="flex h-screen overflow-hidden bg-gradient-to-br from-background via-background to-accent/5">
       {/* Mobile overlay */}
       {sidebarOpen && (
-        <div className="fixed inset-0 z-40 bg-foreground/20 backdrop-blur-sm lg:hidden" onClick={() => setSidebarOpen(false)} />
+        <div 
+          className="fixed inset-0 z-40 bg-black/50 backdrop-blur-sm lg:hidden" 
+          onClick={() => setSidebarOpen(false)} 
+        />
       )}
 
-      {/* Sidebar */}
+      {/* Modern Sidebar */}
       <aside className={cn(
-        "fixed inset-y-0 left-0 z-50 flex w-64 flex-col gradient-sidebar transition-transform duration-300 lg:static lg:translate-x-0",
+        "fixed inset-y-0 left-0 z-50 flex w-72 flex-col bg-white/80 backdrop-blur-xl border-r border-border/50 shadow-2xl transition-all duration-300 lg:static lg:translate-x-0",
         sidebarOpen ? "translate-x-0" : "-translate-x-full"
       )}>
-        {/* Logo */}
-        <div className="flex h-18 items-center gap-3 border-b border-sidebar-border/50 px-5 py-4">
-          <div className="flex h-11 w-11 items-center justify-center rounded-xl bg-gradient-to-br from-sidebar-primary to-sidebar-accent shadow-lg">
-            <Activity className="h-6 w-6 text-sidebar-primary-foreground" />
+        {/* Logo Section */}
+        <div className="relative px-6 py-6 border-b border-border/30">
+          <div className="absolute inset-0 bg-gradient-to-r from-primary/10 to-transparent opacity-50" />
+          <div className="relative flex items-center gap-4">
+            <div className="relative">
+              <div className="absolute inset-0 bg-primary/30 rounded-2xl blur-xl" />
+              <div className="relative flex h-14 w-14 items-center justify-center rounded-2xl bg-gradient-to-br from-primary to-primary/70 shadow-lg">
+                <Activity className="h-7 w-7 text-white" />
+              </div>
+            </div>
+            <div className="flex flex-col">
+              <h1 className="text-2xl font-bold bg-gradient-to-r from-primary to-primary/70 bg-clip-text text-transparent">
+                CliniQ+
+              </h1>
+              <p className="text-xs text-muted-foreground font-medium">Smart Clinic</p>
+            </div>
           </div>
-          <div className="flex flex-col">
-            <h1 className="text-lg font-bold text-white tracking-tight">CliniQ+</h1>
-            <p className="text-xs text-white/60 font-medium">Smart Clinic Management</p>
-          </div>
-          <button className="ml-auto lg:hidden" onClick={() => setSidebarOpen(false)}>
-            <X className="h-5 w-5 text-white/70" />
+          <button 
+            className="absolute right-4 top-6 lg:hidden p-1 rounded-lg hover:bg-muted transition-colors" 
+            onClick={() => setSidebarOpen(false)}
+          >
+            <X className="h-5 w-5 text-muted-foreground" />
           </button>
         </div>
 
-        {/* Nav */}
-        <nav className="flex-1 space-y-1 px-3 py-4">
-          {navItems.map((item) => {
-            const active = location.pathname === item.path;
-            return (
-              <button
-                key={item.path}
-                onClick={() => { setSidebarOpen(false); setTimeout(() => navigate(item.path), 10); }}
-                className={cn(
-                  "flex w-full items-center gap-3 rounded-lg px-3 py-2.5 text-sm font-medium transition-all",
-                  active
-                    ? "bg-sidebar-accent text-sidebar-primary"
-                    : "text-sidebar-foreground hover:bg-sidebar-accent/50 hover:text-sidebar-accent-foreground"
-                )}
-              >
-                <item.icon className="h-4.5 w-4.5" />
-                {item.label}
-                {active && <ChevronRight className="ml-auto h-4 w-4" />}
-              </button>
-            );
-          })}
+        {/* Navigation */}
+        <nav className="flex-1 overflow-y-auto px-4 py-6">
+          <div className="space-y-2">
+            {navItems.map((item) => {
+              const active = location.pathname === item.path;
+              return (
+                <button
+                  key={item.path}
+                  onClick={() => { 
+                    setSidebarOpen(false); 
+                    setTimeout(() => navigate(item.path), 10); 
+                  }}
+                  className={cn(
+                    "group flex w-full items-center gap-3 rounded-xl px-4 py-3.5 text-sm font-medium transition-all duration-200",
+                    active
+                      ? "bg-gradient-to-r from-primary to-primary/80 text-white shadow-lg shadow-primary/25"
+                      : "text-muted-foreground hover:bg-muted hover:text-foreground"
+                  )}
+                >
+                  <item.icon className={cn(
+                    "h-5 w-5 transition-transform duration-200",
+                    active ? "text-white" : "group-hover:scale-110"
+                  )} />
+                  {item.label}
+                  {active && (
+                    <div className="ml-auto">
+                      <div className="h-2 w-2 rounded-full bg-white animate-pulse" />
+                    </div>
+                  )}
+                </button>
+              );
+            })}
+          </div>
         </nav>
 
-        {/* User */}
-        <div className="border-t border-sidebar-border p-4">
-          <div className="flex items-center gap-3">
-            <div className="flex h-9 w-9 items-center justify-center rounded-full bg-sidebar-accent text-sm font-semibold text-sidebar-primary">
-              {user.name.split(" ").map(n => n[0]).join("")}
+        {/* User Section */}
+        <div className="border-t border-border/30 p-4">
+          <div className="rounded-2xl bg-gradient-to-br from-muted/50 to-muted/30 p-4">
+            <div className="flex items-center gap-3">
+              <div className="flex h-11 w-11 items-center justify-center rounded-xl bg-gradient-to-br from-primary to-primary/70 text-white font-semibold shadow-md">
+                {user.name.split(" ").map(n => n[0]).join("")}
+              </div>
+              <div className="flex-1 min-w-0">
+                <p className="truncate text-sm font-semibold text-foreground">{user.name}</p>
+                <p className="text-xs text-muted-foreground">{ROLE_LABELS[user.role]}</p>
+              </div>
+              <button 
+                onClick={() => { logout(); navigate("/"); }} 
+                className="rounded-xl p-2.5 text-muted-foreground hover:bg-destructive/10 hover:text-destructive transition-all"
+                title="Logout"
+              >
+                <LogOut className="h-4 w-4" />
+              </button>
             </div>
-            <div className="flex-1 min-w-0">
-              <p className="truncate text-sm font-medium text-sidebar-accent-foreground">{user.name}</p>
-              <p className="text-xs text-sidebar-muted">{ROLE_LABELS[user.role]}</p>
-            </div>
-            <button onClick={() => { logout(); navigate("/"); }} className="rounded-lg p-2 text-sidebar-muted hover:bg-sidebar-accent hover:text-sidebar-accent-foreground transition-colors">
-              <LogOut className="h-4 w-4" />
-            </button>
+          </div>
+        </div>
+
+        {/* Footer */}
+        <div className="p-4 border-t border-border/30">
+          <div className="text-center">
+            <p className="text-xs text-muted-foreground flex items-center justify-center gap-1">
+              Made with <Heart className="h-3 w-3 text-destructive fill-destructive" /> by <span className="font-semibold text-foreground">Huzaifa</span>
+            </p>
           </div>
         </div>
       </aside>
 
-      {/* Main */}
+      {/* Main Content */}
       <div className="flex flex-1 flex-col overflow-hidden">
-        {/* Top bar */}
-        <header className="flex h-16 items-center gap-4 border-b border-border bg-card px-4 lg:px-6 shadow-card">
-          <button className="lg:hidden" onClick={() => setSidebarOpen(true)}>
-            <Menu className="h-5 w-5 text-foreground" />
-          </button>
-          <div className="flex-1">
-            <h2 className="text-lg font-semibold text-foreground">
-              {navItems.find(n => n.path === location.pathname)?.label || "Dashboard"}
-            </h2>
+        {/* Top Bar */}
+        <header className="flex h-20 items-center justify-between border-b border-border/30 bg-white/50 backdrop-blur-xl px-6 lg:px-8">
+          <div className="flex items-center gap-4">
+            <button 
+              className="lg:hidden p-2.5 rounded-xl hover:bg-muted transition-colors" 
+              onClick={() => setSidebarOpen(true)}
+            >
+              <Menu className="h-5 w-5 text-foreground" />
+            </button>
+            <div>
+              <h2 className="text-xl font-bold text-foreground">
+                {currentPage}
+              </h2>
+              <p className="text-xs text-muted-foreground">
+                Welcome back, {user.name.split(" ")[0]} 👋
+              </p>
+            </div>
           </div>
-          <div className="flex items-center gap-2">
-            <span className="hidden sm:inline rounded-full bg-accent px-3 py-1 text-xs font-medium text-accent-foreground">
+          
+          <div className="flex items-center gap-3">
+            <span className="hidden sm:inline-flex items-center gap-2 rounded-full bg-gradient-to-r from-primary/10 to-primary/5 px-4 py-2 text-xs font-medium text-primary">
+              <span className="h-2 w-2 rounded-full bg-primary animate-pulse" />
               {ROLE_LABELS[user.role]}
             </span>
           </div>
         </header>
 
         {/* Content */}
-        <main className="flex-1 overflow-y-auto p-4 lg:p-6">
-          {children}
+        <main className="flex-1 overflow-y-auto p-6 lg:p-8">
+          <div className="mx-auto max-w-7xl">
+            {children}
+          </div>
         </main>
-
-        {/* Footer */}
-        <footer className="border-t border-white/10 bg-white/5 px-4 py-4 text-center">
-          <p className="text-xs text-white/50">
-            Developed with <span className="text-primary-foreground font-semibold">❤️</span> by <span className="font-semibold text-white">Huzaifa</span>
-          </p>
-          <p className="text-[10px] text-white/30 mt-1">© 2024 CliniQ+ • Smart Clinic Management</p>
-        </footer>
       </div>
     </div>
   );
