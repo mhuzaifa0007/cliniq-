@@ -61,15 +61,15 @@ export default function Login() {
           <div className="mx-auto mb-8 flex h-20 w-20 items-center justify-center rounded-2xl bg-primary-foreground/10 backdrop-blur-sm border border-primary-foreground/20">
             <Activity className="h-10 w-10 text-primary-foreground" />
           </div>
-          <h1 className="text-4xl font-extrabold text-primary-foreground mb-4">CliniQ+</h1>
-          <p className="text-lg text-primary-foreground/80 leading-relaxed">
-            Pakistan's smart clinic management platform. AI-powered diagnosis, digital prescriptions, and complete patient care — built for Pakistani healthcare.
+          <h1 className="text-5xl font-extrabold text-white mb-4 tracking-tight">CliniQ+</h1>
+          <p className="text-lg text-white/80 leading-relaxed">
+            Pakistan's leading smart clinic management platform. AI-powered diagnosis, digital prescriptions, and complete patient care — built for modern healthcare.
           </p>
           <div className="mt-10 grid grid-cols-3 gap-4 text-center">
             {[["500+", "Patients"], ["1,200+", "Appointments"], ["98%", "Satisfaction"]].map(([val, label]) => (
               <div key={label}>
-                <p className="text-2xl font-bold text-primary-foreground">{val}</p>
-                <p className="text-xs text-primary-foreground/70">{label}</p>
+                <p className="text-3xl font-bold text-white">{val}</p>
+                <p className="text-xs text-white/60 mt-1">{label}</p>
               </div>
             ))}
           </div>
@@ -80,10 +80,10 @@ export default function Login() {
       <div className="flex w-full lg:w-1/2 items-center justify-center p-6 bg-background">
         <div className="w-full max-w-md">
           <div className="mb-8 lg:hidden flex items-center gap-3">
-            <div className="flex h-10 w-10 items-center justify-center rounded-xl gradient-primary">
-              <Activity className="h-5 w-5 text-primary-foreground" />
+            <div className="flex h-12 w-12 items-center justify-center rounded-xl gradient-primary shadow-lg">
+              <Activity className="h-6 w-6 text-primary-foreground" />
             </div>
-            <span className="text-xl font-bold text-foreground">CliniQ+</span>
+            <span className="text-2xl font-bold text-foreground">CliniQ+</span>
           </div>
 
           <h2 className="text-2xl font-bold text-foreground">{isSignup ? "Create Account" : "Welcome back"}</h2>
@@ -158,8 +158,8 @@ export default function Login() {
               {isSignup ? "Sign In" : "Sign Up"}
             </button>
           </p>
-          <p className="mt-4 text-center text-xs text-muted-foreground/60">
-            Developed by <span className="font-semibold text-primary">Muhammad Huzaifa</span>
+          <p className="mt-6 text-center text-sm text-muted-foreground">
+            <span className="text-primary/60">Powered by</span> <span className="font-semibold text-primary">Huzaifa</span>
           </p>
         </div>
       </div>

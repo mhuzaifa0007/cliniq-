@@ -70,16 +70,16 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
         sidebarOpen ? "translate-x-0" : "-translate-x-full"
       )}>
         {/* Logo */}
-        <div className="flex h-16 items-center gap-3 border-b border-sidebar-border px-5">
-          <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-sidebar-primary">
-            <Activity className="h-5 w-5 text-sidebar-primary-foreground" />
+        <div className="flex h-18 items-center gap-3 border-b border-sidebar-border/50 px-5 py-4">
+          <div className="flex h-11 w-11 items-center justify-center rounded-xl bg-gradient-to-br from-sidebar-primary to-sidebar-accent shadow-lg">
+            <Activity className="h-6 w-6 text-sidebar-primary-foreground" />
           </div>
-          <div>
-            <h1 className="text-sm font-bold text-sidebar-primary-foreground">CliniQ+</h1>
-            <p className="text-[10px] text-sidebar-muted">Smart Clinic</p>
+          <div className="flex flex-col">
+            <h1 className="text-lg font-bold text-white tracking-tight">CliniQ+</h1>
+            <p className="text-xs text-white/60 font-medium">Smart Clinic Management</p>
           </div>
           <button className="ml-auto lg:hidden" onClick={() => setSidebarOpen(false)}>
-            <X className="h-5 w-5 text-sidebar-foreground" />
+            <X className="h-5 w-5 text-white/70" />
           </button>
         </div>
 
@@ -148,8 +148,11 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
         </main>
 
         {/* Footer */}
-        <footer className="border-t border-border bg-card px-4 py-3 text-center text-xs text-muted-foreground">
-          Developed by <span className="font-semibold text-primary">Huzaifa</span> • CliniQ+
+        <footer className="border-t border-white/10 bg-white/5 px-4 py-4 text-center">
+          <p className="text-xs text-white/50">
+            Developed with <span className="text-primary-foreground font-semibold">❤️</span> by <span className="font-semibold text-white">Huzaifa</span>
+          </p>
+          <p className="text-[10px] text-white/30 mt-1">© 2024 CliniQ+ • Smart Clinic Management</p>
         </footer>
       </div>
     </div>
