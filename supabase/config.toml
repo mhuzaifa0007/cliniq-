@@ -1,0 +1,4 @@
+project_id = "uoumqjuytrkyvqckhozt"
+
+[functions.ai-clinic]
+verify_jwt = false
